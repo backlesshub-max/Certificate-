@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<title>Best Friend of the Year Certificate</title>
+
+<!-- Converts the certificate into a PNG image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Georgia,"Times New Roman",serif;
+  background:linear-gradient(135deg,#111827,#312e81,#7c2d12);
+  color:#111827;
+  padding:25px 15px 50px;
+}
+.app{max-width:1000px;margin:auto}
+.panel{
+  background:rgba(255,255,255,.96);
+  border-radius:22px;
+  padding:25px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+  margin-bottom:25px;
+  font-family:Arial,sans-serif;
+}
+h1{margin:0 0 8px;text-align:center;font-size:30px}
+.subtitle{text-align:center;color:#64748b;margin:0 0 22px}
+label{font-weight:700;display:block;margin-bottom:8px}
+input{
+  width:100%;
+  padding:15px;
+  border:2px solid #d1d5db;
+  border-radius:12px;
+  font-size:17px;
+  outline:none;
+}
+input:focus{border-color:#7c3aed}
+.row{display:flex;gap:10px;margin-top:12px}
+button{
+  border:0;
+  border-radius:12px;
+  padding:14px 18px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  flex:1;
+}
+.generate{background:#7c3aed;color:#fff}
+.clear{background:#e5e7eb;color:#111827}
+.download{
+  width:100%;
+  margin-top:14px;
+  background:#059669;
+  color:white;
+}
+.status{text-align:center;font-family:Arial,sans-serif;color:#64748b;margin-top:10px}
+
+.certificate-wrap{
+  width:100%;
+  overflow:auto;
+  padding:8px;
+}
+#certificate{
+  position:relative;
+  width:1200px;
+  height:850px;
+  margin:auto;
+  overflow:hidden;
+  background:#fffdf4;
+  color:#2b2118;
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+  border:18px solid #b8860b;
+  outline:5px solid #fffdf4;
+  outline-offset:-25px;
+}
+#certificate:before{
+  content:"";
+  position:absolute;
+  inset:35px;
+  border:3px solid #b8860b;
+  pointer-events:none;
+}
+.inner{
+  position:absolute;
+  inset:55px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.top-small{
+  margin-top:20px;
+  letter-spacing:6px;
+  font-size:20px;
+  color:#8b6508;
+  font-weight:bold;
+}
+.title{
+  margin-top:22px;
+  font-size:62px;
+  letter-spacing:5px;
+  font-weight:bold;
+  color:#8b6508;
+}
+.subtitle-cert{
+  font-size:27px;
+  letter-spacing:3px;
+  margin-top:4px;
+  color:#4b3a25;
+}
+.presented{font-size:22px;margin-top:42px}
+.name{
+  font-size:58px;
+  min-width:620px;
+  margin-top:15px;
+  padding:8px 25px 13px;
+  border-bottom:3px solid #b8860b;
+  color:#24180d;
+  font-weight:bold;
+  font-style:italic;
+}
+.body-text{
+  max-width:900px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:21px;
+  line-height:1.55;
+  margin-top:30px;
+}
+.award{
+  margin-top:18px;
+  font-size:25px;
+  font-weight:bold;
+  color:#8b6508;
+  letter-spacing:2px;
+}
+.bottom{
+  width:88%;
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  position:absolute;
+  bottom:20px;
+}
+.signature{
+  width:250px;
+  border-top:2px solid #4b3a25;
+  padding-top:8px;
+  font-size:17px;
+}
+.date{
+  font-size:17px;
+  color:#4b3a25;
+}
+.seal{
+  position:absolute;
+  right:75px;
+  bottom:105px;
+  width:105px;
+  height:105px;
+  border:5px double #b8860b;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:13px;
+  font-weight:bold;
+  color:#8b6508;
+  transform:rotate(-12deg);
+  background:#fff8dc;
+}
+.corner{
+  position:absolute;
+  font-size:55px;
+  color:#b8860b;
+  line-height:1;
+}
+.c1{top:45px;left:48px}.c2{top:45px;right:48px}
+.c3{bottom:45px;left:48px}.c4{bottom:45px;right:48px}
+
+.instructions{
+  font-family:Arial,sans-serif;
+  color:#475569;
+  font-size:14px;
+  line-height:1.5;
+  margin-top:15px;
+}
+@media(max-width:700px){
+  body{padding:12px 8px 30px}
+  .panel{padding:18px}
+  h1{font-size:24px}
+  .certificate-wrap{margin:0 -8px;width:calc(100% + 16px)}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <div class="panel">
+    <h1>🏆 Best Friend of the Year</h1>
+    <p class="subtitle">Create your personalized certificate in seconds. One certificate per device.</p>
+
+    <label for="friendName">Enter your friend's name</label>
+    <input id="friendName" type="text" maxlength="40"
+           placeholder="e.g. Prabal" autocomplete="off">
+
+    <div class="row">
+      <button class="generate" onclick="generateCertificate()">Generate Certificate</button>
+      <button class="clear" onclick="clearName()">Clear</button>
+    </div>
+
+    <button class="download" onclick="downloadCertificate()">📥 Download Certificate as PNG</button>
+    <div id="status" class="status"></div>
+
+    <div class="instructions">
+      Tip: Enter a real name using <b>letters and spaces only</b>. Numbers, symbols and emoji
+      are not accepted. Protected names are blocked. Each browser/device can generate only
+      <b>one certificate</b>; the awarded date is automatically taken from the device's current date.
+    </div>
+  </div>
+
+  <div class="certificate-wrap">
+    <div id="certificate">
+
+      <div class="corner c1">❦</div>
+      <div class="corner c2">❦</div>
+      <div class="corner c3">❦</div>
+      <div class="corner c4">❦</div>
+
+      <div class="inner">
+        <div class="top-small">CERTIFICATE OF APPRECIATION</div>
+
+        <div class="title">BEST FRIEND</div>
+        <div class="subtitle-cert">OF THE YEAR</div>
+
+        <div class="presented">This certificate is proudly presented to</div>
+
+        <div class="name" id="certificateName">Your Friend's Name</div>
+
+        <div class="body-text">
+          For being an amazing, caring, supportive and unforgettable friend,
+          and for making every moment a little better. Your friendship, loyalty,
+          laughter and constant support truly deserve to be celebrated.
+        </div>
+
+        <div class="award">🌟 BEST FRIEND OF THE YEAR 🌟</div>
+
+        <div class="seal">★<br>BEST<br>FRIEND<br><span id="certificateYear"></span></div>
+
+        <div class="bottom">
+          <div class="signature-box">
+            <img
+              class="signature-img"
+              alt="Handwritten signature"
+              src="data:image/png;base64,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">
+            <div class="signature-line"></div>
+            <div style="margin-top:5px;font-size:14px">Presented By</div>
+          </div>
+
+          <div class="date">
+            Awarded on: <span id="certificateDate"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const nameInput = document.getElementById("friendName");
+const certificateName = document.getElementById("certificateName");
+const certificateDate = document.getElementById("certificateDate");
+const certificateYear = document.getElementById("certificateYear");
+const statusText = document.getElementById("status");
+const generateButton = document.querySelector(".generate");
+const clearButton = document.querySelector(".clear");
+const downloadButton = document.querySelector(".download");
+const panel = document.querySelector(".panel");
+
+const DEVICE_CERT_KEY = "bestFriendCertificateIssued_v2";
+
+/*
+  Only letters and spaces are allowed.
+  This accepts Unicode letters too, so names in Indian scripts can be used.
+  Numbers, punctuation, symbols, emoji and other characters are rejected.
+*/
+const NAME_PATTERN = /^\p{L}+(?: \p{L}+)*$/u;
+
+/*
+  Protected names/variants. Matching is case-insensitive.
+  These are deliberately checked before the name is ever placed
+  into the certificate or used for a download.
+*/
+const FORBIDDEN_FRAGMENTS = [
+  "reinhardson",
+  "reinhard",
+  "sangma",
+  "sengdaa",
+  "seng",
+  "daa"
+];
+
+function today(){
+  const d = new Date();
+  return d.toLocaleDateString("en-IN", {
+    day:"2-digit",
+    month:"long",
+    year:"numeric"
+  });
+}
+
+function normalizeName(name){
+  return name.trim().replace(/\s+/g, " ").toLocaleLowerCase("en-IN");
+}
+
+function containsForbiddenName(name){
+  const normalized = normalizeName(name);
+  return FORBIDDEN_FRAGMENTS.some(fragment => normalized.includes(fragment));
+}
+
+function validateName(name){
+  if(!name){
+    return "Please enter your friend's name first.";
+  }
+
+  if(name.length > 40){
+    return "Name must be 40 characters or fewer.";
+  }
+
+  if(!NAME_PATTERN.test(name)){
+    return "Invalid name. Use letters and spaces only — no numbers, symbols or emoji.";
+  }
+
+  if(containsForbiddenName(name)){
+    return "This name is not allowed for certificate generation.";
+  }
+
+  return "";
+}
+
+function getIssuedCertificate(){
+  try{
+    const raw = localStorage.getItem(DEVICE_CERT_KEY);
+    return raw ? JSON.parse(raw) : null;
+  }catch(error){
+    return null;
+  }
+}
+
+function lockCertificate(issued){
+  panel.classList.add("locked");
+  nameInput.disabled = true;
+  generateButton.disabled = true;
+  clearButton.disabled = true;
+
+  if(issued && issued.name){
+    nameInput.value = issued.name;
+    certificateName.textContent = issued.name;
+    certificateDate.textContent = issued.date || today();
+    certificateYear.textContent = new Date().getFullYear();
+    statusText.textContent =
+      "This device has already generated its one certificate. It cannot generate another.";
+  }
+
+  downloadButton.disabled = false;
+}
+
+function saveIssuedCertificate(name){
+  const issued = {
+    name: name.trim().replace(/\s+/g, " "),
+    date: today(),
+    issuedAt: new Date().toISOString()
+  };
+
+  try{
+    localStorage.setItem(DEVICE_CERT_KEY, JSON.stringify(issued));
+  }catch(error){
+    console.warn("Local device storage is unavailable.", error);
+  }
+
+  lockCertificate(issued);
+  return issued;
+}
+
+function generateCertificate(){
+  const name = nameInput.value.trim();
+  const error = validateName(name);
+
+  if(error){
+    statusText.textContent = error;
+    certificateName.textContent = "Your Friend's Name";
+    certificateDate.textContent = today();
+    return false;
+  }
+
+  // Never allow a second certificate on the same browser/device storage.
+  const alreadyIssued = getIssuedCertificate();
+  if(alreadyIssued){
+    lockCertificate(alreadyIssued);
+    return false;
+  }
+
+  certificateName.textContent = name;
+  certificateDate.textContent = today();
+
+  // Lock immediately after the first valid certificate is generated.
+  saveIssuedCertificate(name);
+
+  statusText.textContent =
+    "Certificate generated successfully! 🎉 This device is now limited to one certificate.";
+  return true;
+}
+
+function clearName(){
+  if(getIssuedCertificate()){
+    statusText.textContent =
+      "This device has already generated its one certificate, so it cannot be cleared or reused.";
+    return;
+  }
+
+  nameInput.value = "";
+  certificateName.textContent = "Your Friend's Name";
+  certificateDate.textContent = today();
+  statusText.textContent = "";
+}
+
+async function downloadCertificate(){
+  const issued = getIssuedCertificate();
+
+  if(!issued){
+    if(!generateCertificate()) return;
+  }
+
+  const current = getIssuedCertificate();
+  if(!current){
+    statusText.textContent =
+      "Certificate storage is unavailable on this device, so the certificate cannot be issued safely.";
+    return;
+  }
+
+  // Use only the stored, already-validated certificate name.
+  const name = current.name;
+
+  // Extra safety: refuse download if storage was tampered with.
+  const error = validateName(name);
+  if(error || containsForbiddenName(name)){
+    statusText.textContent = "This certificate cannot be displayed or downloaded.";
+    certificateName.textContent = "Your Friend's Name";
+    return;
+  }
+
+  certificateName.textContent = name;
+  certificateDate.textContent = current.date || today();
+  certificateYear.textContent = new Date().getFullYear();
+  statusText.textContent = "Preparing your certificate...";
+
+  if(typeof html2canvas === "undefined"){
+    statusText.textContent =
+      "The certificate library could not load. Check your internet connection and try again.";
+    return;
+  }
+
+  try{
+    const canvas = await html2canvas(document.getElementById("certificate"), {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#fffdf4"
+    });
+
+    canvas.toBlob(function(blob){
+      if(!blob){
+        statusText.textContent = "Could not create the certificate image.";
+        return;
+      }
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+
+      const safeName = name
+        .replace(/\s+/g, "_")
+        .slice(0, 40) || "Friend";
+
+      a.href = url;
+      a.download = "Best_Friend_of_the_Year_" + safeName + ".png";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      statusText.textContent =
+        "Downloaded! 📸 Check your Downloads/Gallery.";
+    }, "image/png");
+
+  }catch(error){
+    console.error(error);
+    statusText.textContent =
+      "Could not create the image. Please try again.";
+  }
+}
+
+// Prevent invalid characters from being entered in the first place.
+// The validator remains the final authority, so pasted text is also checked.
+nameInput.addEventListener("input", function(){
+  const value = nameInput.value;
+  const invalidCharacters = /[^\p{L} ]/gu;
+
+  if(invalidCharacters.test(value)){
+    statusText.textContent =
+      "Only letters and spaces are allowed in the name.";
+  }else if(containsForbiddenName(value)){
+    statusText.textContent =
+      "This name is not allowed for certificate generation.";
+  }else{
+    statusText.textContent = "";
+  }
+});
+
+nameInput.addEventListener("keydown", function(e){
+  if(e.key === "Enter") generateCertificate();
+});
+
+// Show today's date on first load and restore the one-certificate lock.
+certificateDate.textContent = today();
+certificateYear.textContent = new Date().getFullYear();
+
+const existingCertificate = getIssuedCertificate();
+if(existingCertificate && validateName(existingCertificate.name) === ""){
+  lockCertificate(existingCertificate);
+}else if(existingCertificate){
+  // If local storage was tampered with, invalidate the stored record.
+  try{ localStorage.removeItem(DEVICE_CERT_KEY); }catch(error){}
+}
+</script>
+</body>
+</html>
